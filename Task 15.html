@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "UTF-8">
+	<title>Task 15 - Version 2</title>
+</head>
+<body>
+<script>
+
+var array = [],
+	max_number = 20;
+
+for (let i = 0; i <= max_number; i++) {
+	array.push([1]);
+}
+
+for (let y = 1; y <= max_number; y++) {
+	array[y][y] = array[y][y - 1] * 2;
+	for (let x = y + 1; x <= max_number; x++) {
+		array[x][y] = array[x][y - 1] + array[x - 1][y];
+	}
+}
+
+document.write(array[max_number][max_number]);
+
+</script>
+</body>
+</html>

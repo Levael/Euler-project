@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "UTF-8">
+	<title>Task 7 - Version 1</title>
+</head>
+<body>
+<script>
+
+function GetPrimeNumber (limit) {
+	var bool_array = [],
+		final_array = [],
+		max = limit || 100,
+		sqrt = Math.ceil(Math.sqrt(max));
+
+	for (let i = 2; i <= max; i++) {
+		bool_array[i] = true;
+	}
+
+	for (let n = 2; n <= sqrt; n++) {
+			if (bool_array[n]) {
+				for (let m = n * n; m <= max; m += n) {
+					bool_array[m] = false;
+				}
+			}
+	}
+
+	for (let b = 2; b <= max; b++) {
+		if (bool_array[b]) {
+			final_array.push(b);
+		}
+	}
+	
+	len = final_array.length;
+	return final_array[10000];
+}
+
+document.write(GetPrimeNumber(200000) + " - " + len);
+
+</script>	
+</body>
+</html>

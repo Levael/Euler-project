@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "UTF-8">
+	<title>Task 13 - Version 1</title>
+</head>
+<body>
+<script src = "text.js"></script>	<!-- var text -->
+<script>
+
+function ConvertStringToTDA (string, first_sep, second_sep) {	// TDA == two-dimensional array, sep == separator
+	var TD_array = string.split(first_sep);
+	for (let i = 0; i < TD_array.length; i++) {
+		TD_array[i] = TD_array[i].split(second_sep);
+		for (let n = 0; n < TD_array[i].length; n++) {
+			TD_array[i][n] = Number(TD_array[i][n]);
+		}
+	}
+	return TD_array;
+}
+
+var array = ConvertStringToTDA(text, '%', ''),
+	sum = 0,
+	number = 0,
+	sum_memory = 0,
+	rows = array.length,
+	numbers_in_row = array[0].length;
+array.push([]);
+
+for (let i = numbers_in_row - 1; i >= 0; i--) {
+	for (let n = 0; n < rows; n++) {
+		sum += array[n][i];
+	}
+	sum += sum_memory;
+	number = sum % 10;
+	array[rows].push(number);
+	sum_memory = (sum - number) / 10;
+	sum = 0;
+}
+console.log(sum_memory);
+while (sum_memory > 9) {
+	
+	number = sum_memory % 10;
+	
+	array[rows].push(number);
+	sum_memory = (sum_memory - number) / 10;
+}
+
+if (sum_memory == 0) {
+	array[rows].push(1);
+} else {
+	array[rows].push(sum_memory);
+}
+
+var ARL = array[rows].length,
+	answer = [];
+
+for (let m = 0; m < 10; m++) {
+	answer.push(array[rows][ARL - m - 1]);
+}
+
+document.write(answer);
+
+</script>
+</body>
+</html>

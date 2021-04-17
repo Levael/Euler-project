@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "UTF-8">
+	<title>Task 12 - Version 2</title>
+</head>
+<body>
+<script>
+
+var trn = 6,	// first TRiangle Number
+	nod = func(trn);	//Number Of Deviders
+
+for (let ln = 4; nod < 500; ln++) {	// Last Number in triangle (in the bottom)
+	trn += ln;
+	nod = func(trn);
+}
+
+function func (tr_num) {
+	var index = 0,
+		tr_num = tr_num,
+		mult = 1,
+		arr = [];
+	arr[index] = 0;
+	
+	for (let x = 2; x <= tr_num; x++) {
+		if (tr_num % x == 0) {
+			arr[index] += 1;
+			tr_num /= x;
+			x--;
+			continue;
+		}
+
+		if (arr[index] != 0) {
+			index++;
+			arr[index] = 0;
+		}
+	}
+
+	for (let i = 0; i < arr.length; i++) {
+		mult *= (arr[i] + 1);
+	}
+	return mult;
+}
+
+document.write(trn);
+
+</script>
+</body>
+</html>

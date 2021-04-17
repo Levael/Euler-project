@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "UTF-8">
+	<title>Task 18 - Version 1</title>
+	<!--<script src = "text_18.js"></script>-->
+	<script src = "text_67.js"></script>
+	<script src = "../functions.js"></script>
+</head>
+<body>
+<script>
+
+var main_array = ConvertStringToTDA(string, '%', ' ');
+AddOneMoreDemention(main_array);
+IterateArray(main_array);	// верхний и слева
+var max_sequence = GetMaxSequence(main_array);	// from bottop to top
+document.write(max_sequence);
+document.write('<br>');
+document.write(GetSum(max_sequence));
+
+/////////////////////////// FUNCTIONS //////////////////////////////////
+
+function GetSum (array) {
+	var sum = 0;
+	for (let i = 0; i < array.length; i++) {
+		sum += array[i];
+	}
+	return sum;
+}
+
+function AddOneMoreDemention (array) {
+	for (let row = 0; row < array.length; row++) {
+		for (let index = 0; index < array[row].length; index++) {
+			array[row][index] = [array[row][index], 0];		// [1,2,3] -> [[1,0], [2,0], [3,0]]
+		}
+	}
+}
+
+function GetMaxNumber(array, row, index) {
+	var up_left = array[row - 1][index - 1],
+		up_right = array[row - 1][index];
+
+	if (up_left == undefined) {
+		return up_right[1];
+	}
+
+	if (up_right == undefined) {
+		return up_left[1];
+	}
+
+	if (up_left[1] > up_right[1]) {
+		return up_left[1];
+	} else {
+		return up_right[1];
+	}
+
+	alert('error');
+	return 'error';
+}
+
+function IterateArray (array) {
+	array[0][0][1] = array[0][0][0];
+	var max_previous;
+	for (let row = 1; row < array.length; row++) {
+		for (let index = 0; index < array[row].length; index++) {
+			max_previous = GetMaxNumber(array, row, index);
+			if (max_previous > array[row][index][1]) {
+				array[row][index][1] = max_previous + array[row][index][0];
+			}
+		}
+	}
+}
+
+function GetMaxSequence (array) {
+	var last_row = array[array.length - 1],
+		max_number = 0,
+		sequence = [],
+		mn_index = 0;
+	for (let i = 0; i < last_row.length; i++) {
+		if (last_row[i][1] >= max_number) {
+			max_number = last_row[i][1];
+			mn_index = i;
+			console.log(mn_index);
+		}
+	}
+	sequence.push(last_row[mn_index][0]);
+
+	for (let row = array.length - 1; row > 1; row--) {
+		var up_left = array[row - 1][mn_index - 1],
+			up_right = array[row - 1][mn_index];
+
+		if (up_left == undefined) {
+			sequence.push(up_right[0]);
+		} else if (up_right == undefined) {
+			sequence.push(up_left[0]);
+			mn_index--;
+		} else if (up_left[1] > up_right[1]) {
+			sequence.push(up_left[0]);
+			mn_index--;
+		} else {
+			sequence.push(up_right[0]);
+		}
+	}
+
+	sequence.push(array[0][0][0]);
+	return sequence;
+}
+
+// оптимизировать, сделав для суммарных чисел (те, что под индексом 1) отдельный массив, а не постоянно изменять настоящий
+
+</script>
+</body>
+</html>

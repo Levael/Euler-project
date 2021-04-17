@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "UTF-8">
+	<title>Task 3 - Version 2</title>
+</head>
+<body>
+<script>
+
+var number = 600851475143;
+var kinda_counter;
+
+for (let i = 2; i <= number; i++) {
+	if (number % i == 0) {
+		number /= i;
+		kinda_counter = i;
+		i--;
+	}
+}
+
+document.write(kinda_counter);
+
+
+</script>	
+</body>
+</html>

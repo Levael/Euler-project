@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "UTF-8">
+	<title>Task 11 - Version 1</title>
+</head>
+<body>
+<script>
+
+var fileString = "08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08\r49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00\r81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65\r52 70 95 23 04 60 11 42 69 24 68 56 01 32 56 71 37 02 36 91\r22 31 16 71 51 67 63 89 41 92 36 54 22 40 40 28 66 33 13 80\r24 47 32 60 99 03 45 02 44 75 33 53 78 36 84 20 35 17 12 50\r32 98 81 28 64 23 67 10 26 38 40 67 59 54 70 66 18 38 64 70\r67 26 20 68 02 62 12 20 95 63 94 39 63 08 40 91 66 49 94 21\r24 55 58 05 66 73 99 26 97 17 78 78 96 83 14 88 34 89 63 72\r21 36 23 09 75 00 76 44 20 45 35 14 00 61 33 97 34 31 33 95\r78 17 53 28 22 75 31 67 15 94 03 80 04 62 16 14 09 53 56 92\r16 39 05 42 96 35 31 47 55 58 88 24 00 17 54 24 36 29 85 57\r86 56 00 48 35 71 89 07 05 44 44 37 44 60 21 58 51 54 17 58\r19 80 81 68 05 94 47 69 28 73 92 13 86 52 17 77 04 89 55 40\r04 52 08 83 97 35 99 16 07 97 57 32 16 26 26 79 33 27 98 66\r88 36 68 87 57 62 20 72 03 46 33 67 46 55 12 32 63 93 53 69\r04 42 16 73 38 25 39 11 24 94 72 18 08 46 29 32 40 62 76 36\r20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16\r20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54\r01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48";
+var matrix = ConvertStringToTDA(fileString, '\r', ' ');	// matrix have to be square
+//console.log(matrix);
+
+
+function ConvertStringToTDA (string, first_sep, second_sep) {	// TDA == two-dimensional array, sep == separator
+	var TD_array = string.split(first_sep);
+	for (let i = 0; i < TD_array.length; i++) {
+		TD_array[i] = TD_array[i].split(second_sep);
+		for (let n = 0; n < TD_array[i].length; n++) {
+			TD_array[i][n] = Number(TD_array[i][n]);
+		}
+	}
+	return TD_array;
+}
+
+function MaxMult (matrix) {
+	var max_results = [0];
+	function GetHorisontalMaxMult (matrix) {
+		var max_mult_horisontal = 0, mult_horisontal, line_arr;
+		for (let line = 0; line < matrix.length; line++) {
+			line_arr = matrix[line];
+			for (let first = 0; first < line_arr.length - 3; first++) {
+				mult_horisontal = line_arr[first] * line_arr[first + 1] * line_arr[first + 2] * line_arr[first + 3];
+				if (mult_horisontal > max_mult_horisontal) {
+					max_mult_horisontal = mult_horisontal;
+					if (max_mult_horisontal > max_results[0]) {
+						max_results = [max_mult_horisontal, line_arr[first], line_arr[first + 1], line_arr[first + 2], line_arr[first + 3], 'horisontal'];
+					}					
+				}
+			}
+		}
+		return max_mult_horisontal;
+	}
+	function GetVerticalMaxMult (matrix) {
+		var max_mult_vertical = 0, mult_vertical, column_arr;
+		for (let column = 0; column < matrix[0].length; column++) {
+			for (let first_row = 0; first_row < matrix.length - 3; first_row++) {
+				mult_vertical = matrix[first_row][column] * matrix[first_row + 1][column] * matrix[first_row + 2][column] * matrix[first_row + 3][column];
+				if (mult_vertical > max_mult_vertical) {
+					max_mult_vertical = mult_vertical;
+					if (max_mult_vertical > max_results[0]) {
+						max_results = [max_mult_vertical, matrix[first_row][column], matrix[first_row + 1][column], matrix[first_row + 2][column], matrix[first_row + 3][column], 'vertical'];
+					}	
+				}
+			}
+		}
+		return max_mult_vertical;
+	}
+	function GetDiagonalLRMaxMult (matrix) {
+		var max_mult_diagonalLR = 0, mult_diagonalLR;
+		for (let line = 0; line < matrix.length - 3; line++) {
+			for (let elem = 0; elem < matrix[0].length - 3; elem++) {
+				mult_diagonalLR = matrix[line][elem] * matrix[line + 1][elem + 1] * matrix[line + 2][elem + 2] * matrix[line + 3][elem + 3];
+				if (mult_diagonalLR > max_mult_diagonalLR) {
+					max_mult_diagonalLR = mult_diagonalLR;
+					if (max_mult_diagonalLR > max_results[0]) {
+						max_results = [max_mult_diagonalLR, matrix[line][elem], matrix[line + 1][elem + 1], matrix[line + 2][elem + 2], matrix[line + 3][elem + 3], 'diagonal LR'];
+					}
+				}
+			}
+		}
+		return max_mult_diagonalLR;
+	}
+	function GetDiagonalRLMaxMult (matrix) {
+		var max_mult_diagonalRL = 0, mult_diagonalRL;
+		for (let line = 0; line < matrix.length - 3; line++) {
+			for (let elem = 3; elem < matrix[0].length; elem++) {
+				mult_diagonalRL = matrix[line][elem] * matrix[line + 1][elem - 1] * matrix[line + 2][elem - 2] * matrix[line + 3][elem - 3];
+				if (mult_diagonalRL > max_mult_diagonalRL) {
+					max_mult_diagonalRL = mult_diagonalRL;
+					if (max_mult_diagonalRL > max_results[0]) {
+						max_results = [max_mult_diagonalRL, matrix[line][elem], matrix[line + 1][elem - 1], matrix[line + 2][elem - 2], matrix[line + 3][elem - 3], 'diagonal RL'];
+					}
+				}
+			}
+		}
+		return max_mult_diagonalRL;
+	}
+	function GetMaxNumberModeArray (numb_1, numb_2, numb_3, numb_4) {
+		var final_1, final_2, max_mult_array;
+
+		if (numb_1[0] > numb_2[0]) {
+			final_1 = numb_1;
+		} else if (numb_1[0] == numb_2[0]) {
+			console.log('ogogo 1');
+			final_1 = numb_1;
+		} else {
+			final_1 = numb_2;
+		}
+
+		if (numb_3[0] > numb_4[0]) {
+			final_2 = numb_3;
+		} else if (numb_3[0] == numb_4[0]) {
+			console.log('ogogo 2');
+			final_2 = numb_3;
+		} else {
+			final_2 = numb_4;
+		}
+
+		if (final_1[0] > final_2[0]) {
+			max_mult_array = final_1;
+		} else if (final_1[0] == final_2[0]) {
+			console.log('ogogo 3');
+			max_mult_array = final_1;
+		} else {
+			max_mult_array = final_2;
+		}
+
+		return max_mult_array;
+	}
+	function GetMaxNumber (num_1, num_2, num_3, num_4) {
+		function MaxNumber (number_1, number_2) {
+			if (number_1 > number_2) return number_1;
+			else if (number_1 == number_2) {
+				console.log("ogogo");
+				return number_1;
+			} else return number_2;
+		}
+		var final_1 = MaxNumber(num_1, num_2),
+			final_2 = MaxNumber(num_3, num_4),
+			result 	= MaxNumber(final_1, final_2);
+		return result;
+	}
+
+	var mmh    = GetHorisontalMaxMult(matrix),				// max_mult_horisontal
+		mmv    = GetVerticalMaxMult(matrix),				// max_mult_vertical
+		mmd_LR = GetDiagonalLRMaxMult(matrix),				// max_mult_diagonal_left_right
+		mmd_RL = GetDiagonalRLMaxMult(matrix),				// max_mult_diagonal_right_left
+		gmm    = GetMaxNumber(mmh, mmv, mmd_LR, mmd_RL);	// general_max_mult
+	// only for interest (variables above)
+	return max_results;
+}
+
+//document.write(MaxMult(matrix) + '<br>');	// two-dimensional array
+var results = MaxMult(matrix);
+document.write(results[0] + ': ' + results[1] + ' - ' + results[2] + ' - ' + results[3] + ' - ' + results[4] + ' -- ' + results[5]);
+
+</script>
+</body>
+</html>

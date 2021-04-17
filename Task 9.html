@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "UTF-8">
+	<title>Task 9 - Version 1</title>
+</head>
+<body>
+<script>
+
+function GetMultABC (max) {
+	for (let a = 1; a < max - 3; a++) {
+		let aq = a*a;
+		for (let b = a + 1; b < max - a - b; b++) {
+			let bq = b*b;
+			for (let c = max - a - b; c > b; c--) {
+				let cq = c*c;
+				if ((a + b + c == max) && (aq + bq == cq)) {
+					console.log(a + " - " + b + " - " + c);
+					return a*b*c;
+				}
+			}
+		}
+	}
+}
+
+document.write(GetMultABC(1000));
+
+</script>
+</body>
+</html>

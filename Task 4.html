@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "UTF-8">
+	<title>Task 4 - Version 1.2</title>
+</head>
+<body>
+<script>
+
+var num_one,
+	num_two,
+	mult_num,
+	mult_str,
+	max_polindrom = 0;
+
+function IsPolindrom (mult_num) {
+	mult_str = mult_num.toString();
+	var start = 0,
+		end = mult_str.length - 1;
+	while (start < end) {
+		if (mult_str[start] == mult_str[end]) {
+			start++;
+			end--;
+		} else {
+			return false;
+		}
+	}
+	return true;
+}
+
+for (num_one = 999; num_one >= 100; num_one--) {
+	for (num_two = num_one; num_two >= 100; num_two--) {
+		mult_num = num_one * num_two;
+		if (IsPolindrom(mult_num)) {
+			if (mult_num > max_polindrom) {
+				max_polindrom = mult_num;
+				document.write(num_one + " - " + num_two + " -- " + max_polindrom + "<br>");
+			}
+			break;
+		}
+	}
+}
+
+document.write(max_polindrom);
+
+</script>	
+</body>
+</html>

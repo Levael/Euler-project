@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "UTF-8">
+	<title>Task 14 - Slow version</title>
+</head>
+<body>
+<script>
+
+var num,
+	counter,
+	max = [0, 0];
+
+for (let i = 2; i <= 1000000; i++) {
+	num = i;
+	counter = 0;
+	while (num != 1) {
+		if (num % 2 == 0) {
+			num /= 2;
+		} else {
+			num *= 3;
+			num++;
+		}
+		counter++;
+
+		if (counter >= max[0]) {
+			max = [counter + 1, i];
+		}
+	}
+}
+
+document.write(max[1]);
+
+</script>
+</body>
+</html>

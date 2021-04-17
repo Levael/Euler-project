@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "UTF-8">
+	<title>Task 20 - Version 1</title>
+	<!-- <script src = "../functions.js"></script> -->
+</head>
+<body>
+<script>
+
+(function Main () {
+	let factorials = [[1]];
+	for (let multiplier = 0; multiplier < 100; multiplier++) {
+		factorials.push(MultipleBigNumbersOnSmallNumber(factorials[multiplier], multiplier + 1));
+		document.write(multiplier + 1 + ': ' + factorials[multiplier + 1].join("") + '<br>');
+	}	
+	alert(GetSumOfArray(factorials[factorials.length - 1]));
+})();
+
+/////////////////////////// FUNCTIONS //////////////////////////////////
+
+function GetSumOfArray (array) {
+	var sum = 0;
+	for (let i = 0; i < array.length; i++) {
+		sum += array[i];
+	}
+	return sum;
+}
+
+function GetCopyArray (array) {
+	var arr = [];
+	for (let i = 0; i < array.length; i++) {
+		arr[i] = array[i];
+	}
+	return arr;
+}
+
+function MultipleBigNumbersOnSmallNumber (big, small) {		// big - array; small - number
+	let new_factorial = GetCopyArray(big),
+		all_mult, clear_mult, memory_bank = 0;
+
+	// "запас" для чисел, которые мы "запоминаем в уме", потом сотрутся если останутся
+	new_factorial.push(0, 0);
+
+	// умножение массива на определённое число (массив начинается с наименьшего разряда)
+	for (let digit = 0; digit < new_factorial.length; digit++) {
+		all_mult = new_factorial[digit] * small + memory_bank;
+		clear_mult = all_mult % 10;
+		memory_bank = (all_mult - clear_mult) / 10;
+		new_factorial[digit] = clear_mult;
+	}
+	
+	// дополняем то, что "запоминали в уме"
+	while (true) {
+		if (memory_bank >= 10) {
+			new_factorial.push(memory_bank % 10);
+			memory_bank /= 10;
+		} else {
+			if (memory_bank != 0) {
+				new_factorial.push(memory_bank);
+			}
+			break;
+		}
+	}
+	// убираем лишние нули спереди
+	for (let i = 1; true; i++) {
+		if (new_factorial[new_factorial.length - i] != 0) {
+			break;
+		} else {
+			new_factorial.pop();
+			i--;
+		}
+	}
+
+	return new_factorial;
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "UTF-8">
+	<title>Task 16 - Version 1</title>
+</head>
+<body>
+<script>
+
+// function LargeSum (all_numbers_array) {		// array from numbers-arrays
+// 	var last_sum = all_numbers_array[0];
+// 	for (let i = 1; i < all_numbers_array.length; i++) {
+// 		last_sum = SumOfTwoLargeNumbers(last_sum, all_numbers_array[i]);
+// 	}
+// 	return last_sum;	// reverse an array to read correctly
+// }
+
+function SumOfTwoLargeNumbers (num_1, num_2) {	// two arrays
+
+	//////////////////	definition variables and equalization arrays
+
+	var all_sum,
+		clear_sum,
+		sum_memory = 0;
+
+	if (num_1.length >= num_2.length) {		// first_number is the longest
+		var first_number = num_1,
+			second_number = num_2;
+	} else {
+		var first_number = num_2,
+			second_number = num_1;
+	}
+	
+	while (second_number.length < first_number.length) {
+		second_number.push(0);
+	}
+
+	first_number.push(0);	// в случае когда большие числа и выходят за порядок
+	second_number.push(0);
+
+	//////////////////	summing numbers
+
+	for (let i = 0; i < first_number.length; i++) {		// first index == lowest digit
+		all_sum = first_number[i] + second_number[i] + sum_memory;
+		clear_sum = all_sum % 10;
+		sum_memory = (all_sum - clear_sum) / 10;
+		first_number[i] = clear_sum;
+	}
+
+	//////////////////	delete extra zeros
+
+	while (first_number[first_number.length - 1] == 0) {
+		first_number.pop();
+	}
+
+	//////////////////	now 'first_number' is the sum of two numbers, below appears as 'last_sum'
+	//////////////////	return number in 'reverse order': 332 = [2,3,3]		(first index == lowest digit)
+
+	return first_number;	
+}
+
+//////////////////	getting number 2^1000
+
+var final_sum = [2],
+	max = 1000;
+for (let i = 0; i < max - 1; i++) {
+	final_sum = SumOfTwoLargeNumbers(final_sum, final_sum);
+}
+
+//////////////////	summing his digets
+
+var answer = 0;
+for (let n = 0; n < final_sum.length; n++) {
+	answer += final_sum[n];
+}
+
+//////////////////	display the answer
+
+// for (let m = final_sum.length - 1; m >= 0; m--) {
+// 	document.write(final_sum[m]);
+// }
+
+document.write(answer);
+
+</script>
+</body>
+</html>

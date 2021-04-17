@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "UTF-8">
+	<title>Task 6 - Version 1</title>
+</head>
+<body>
+<script>
+
+function SumSquares () {
+	var squaresSum = 0;
+	for (let i = 1; i <= max_num; i++) {
+		squaresSum += (i * i);
+	}
+	return squaresSum;
+}
+
+function MultOfSum () {
+	var sum = 0;
+	for (let i = 1; i <= max_num; i++) {
+		sum += i;
+	}
+	return sum * sum;
+}
+
+var max_num = 100,
+	sum = SumSquares(max_num),
+	mult = MultOfSum(max_num),
+	diff = mult - sum;
+
+document.write(diff);
+
+</script>	
+</body>
+</html>
